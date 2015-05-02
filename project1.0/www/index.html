@@ -4,174 +4,579 @@
   <meta charset="utf-8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>My App</title>  
+  <title>Project1.0</title>  
   
   <link rel="stylesheet" href="lib/onsen/css/onsenui.css">  
-  <link rel="stylesheet" href="styles/onsen-css-components-blue-basic-theme.css">  
+  <link rel="stylesheet" href="styles/onsen-css-components-sunshine-theme.css"> 
   <link rel="stylesheet" href="styles/app.css"/>
+  <link rel="stylesheet" href="list_thumbnails.css">
 
   <script src="lib/onsen/js/angular/angular.js"></script>    
-  <script src="lib/onsen/js/onsenui.js"></script>    
+  <script src="lib/onsen/js/onsenui.js"></script>   
 
   <script src="cordova.js"></script>
 
   <script>
-    var module = angular.module('app', ['onsen']);
+  ons.bootstrap();
+  var module = angular.module('app', ['onsen']);
   </script>
 
-  <style>
-    .page--menu-page__background {
-      background-color: #333;
-    }
-    
-    .page--menu-page__content {
-      color: white;
-    }
 
-    .menu-close,
-    .menu-close > .toolbar-button {
-      color: #999;
-    }
-
-    .menu-list,
-    .menu-item:first-child,
-    .menu-item:last-child,
-    .menu-item {
-      background-color: transparent;
-      background-image: none !important;
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .menu-item {
-      padding: 0 0 0 20px;
-      line-height: 52px;
-      height: 52px;
-      text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0px;
-    }
-
-    .menu-item:active {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .menu-notification {
-      display: inline-block;
-      margin-top: 12px;
-      font-size: 14px;
-      height: 16px;
-      line-height: 16px;
-      min-width: 16px;
-      font-weight: 600;
-    }
-
-    .bottom-menu-list,
-    .bottom-menu-item:first-child,
-    .bottom-menu-item:last-child,
-    .bottom-menu-item {
-      border-color: #393939;
-      background-color: transparent;
-      background-image: none !important;
-      color: #ccc;
-    }
-
-    .bottom-menu-item:active {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  </style>
   
 </head>
 
-<body>    
-  
+<body> 
+
+<!-- Comienzo Efecto menu izquierdo -->  
   <ons-sliding-menu
-    menu-page="menu.html" main-page="page1.html" side="left"
-    var="menu" type="reveal" max-slide-distance="260px" swipeable="true">
+                    main-page="topicality.html"
+                    menu-page="menu.html"       
+                    side="left"
+                    max-slide-distance="250px"
+                    var="menu">
   </ons-sliding-menu>
+<!-- Fin menu izquierdo --> 
 
-  <ons-template id="menu.html">
-    <ons-page modifier="menu-page">
-      <ons-toolbar modifier="transparent"></ons-toolbar>
+<!-- Inicio Pagina Actualidad-->
+<ons-template id="topicality.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button ng-click="menu.toggleMenu()"><ons-icon icon="ion-navicon-round" style="font-size: 32px; width: 1em;"></ons-icon></ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+      <div class="center">Actualidad</div>
+  </ons-page>
+</ons-template>
+<!-- Fin Pagina Actualidad  -->
 
-      <ons-list class="menu-list">
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('page1.html', {closeMenu: true})">
-          <ons-icon icon="fa-plus" fixed-width="true"></ons-icon>
-          New Post
-        </ons-list-item>
 
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('page2.html', {closeMenu: true})">
-          <ons-icon icon="fa-bookmark" fixed-width="true"></ons-icon>
-          Bookmark
-        </ons-list-item>
+<!-- Comienzo pagina de series -->
+<ons-template id="page-favorite-list.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="menu.toggleMenu()"><ons-icon icon="ion-navicon" style="font-size: 32px; width: 1em;"></ons-icon></ons-toolbar-button>
+      </div>
+      <div class="center">Mis Series</div>
+    </ons-toolbar>
 
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('page1.html', {closeMenu: true})">
-          <ons-icon icon="fa-twitter" fixed-width="true"></ons-icon>
-          Official Twitter
-        </ons-list-item>
-      </ons-list>
+      <!-- Comienzo tab de la pagina de noticias -->
+      <ons-tabbar position="top">
+        <ons-tab page="serie-lista.html" style="font-size: 15px;" label="Lista de Series" icon="ion-ios-list-outline" active="true" ng-controller="MyCtrl"></ons-tab>
+        <ons-tab page="curosiodades-lista.html" label="Curiosidades" icon="ion-alert"></ons-tab>
+      </ons-tabbar>
+      <!-- Fin tab de la pagina de noticias -->
 
-      <br>
 
-      <ons-list class="bottom-menu-list">
-        <ons-list-item class="bottom-menu-item" ng-click="menu.setMainPage('page2.html', {closeMenu: true})">
-          Settings
-          <div class="notification menu-notification">3</div>
-        </ons-list-item>
+      <!-- Inicio pagina serie Lista -->
+        <ons-template id="serie-lista.html">
+            <ons-page ng-controller="MyCtrl">
 
-        <ons-list-item class="bottom-menu-item" ng-click="menu.setMainPage('page1.html', {closeMenu: true})">
-          Help
-        </ons-list-item>
+             <ons-list>
 
-        <ons-list-item class="bottom-menu-item" ng-click="menu.setMainPage('page2.html', {closeMenu: true})">
-          Send feedback
-        </ons-list-item>
-      </ons-list>
-    </ons-page>
-  </ons-template>
+              <ons-list-header class="person-list-header">Fantasía</ons-list-header>
+               <ons-list-item modifier="chevron" class="list-item-container" onclick="menu.setMainPage('page.html', {closeMenu: true})">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/got-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Game of Thrones
+                    </div>
+                    <div class="desc">
+                        Es una serie de televisión estadounidense de fantasía medieval, drama y aventuras creada por David Benioff y D. B. Weiss. Está basada en la serie de novelas Canción de hielo y fuego, del escritor George R. R. Martin.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/100-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Los 100
+                    </div>
+                    <div class="desc">
+                        'Los 100' es un drama post apocalíptico escrito por Jason Rothenberg (Body Politic), basado en los libros de Kass Morgan. La historia está centrada en lo que ocurre con la civilización.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/american-horror-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      American Horror Story 
+                    </div>
+                    <div class="desc">
+                      Concebida por los creadores de 'Glee' y 'Nip/Tuck, a golpe de bisturí', Ryan Murphy y Brad Falchuk, 'American Horror Story' narra en cada una de sus temporadas una historia independiente.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/salem-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Salem
+                    </div>
+                    <div class="desc">
+                     Está ambientada en el s.XVII de Massachusetts y explora lo que realmente impulsó a realizar los juicios infames de las brujas de la ciudad de Salem y se atreve a destapar la verdad oscura que hay tras ellos.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
 
-  <ons-template id="page1.html">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button ng-click="menu.toggle()">
-            <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
-          </ons-toolbar-button>
+              <ons-list-header class="person-list-header">Drama</ons-list-header>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/breaking-bad-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Breaking Bad
+                    </div>
+                    <div class="desc">
+                      Este drama televisivo escrito y producido por Vince Gilligan nos muestra la vida de Walter White, un genio en el campo de la Química cuya existencia está marcada por una enorme frustración tanto a nivel personal como laboral. 
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/strain-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      The Strain
+                    </div>
+                    <div class="desc">
+                      'The Strain' es una serie basada en la novela  de terror de vampiros de mismo nombre,  escrita por Guillermo del Toro y Chuck Hogan, que ha sido adaptada a la televisión por encargo del canal FX.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/madmen-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Mad Men
+                    </div>
+                    <div class="desc">
+                    De la mano de la cadena norteamericana AMC nace esta serie inspirada en la figura real del publicista Draper Daniels, uno de los pioneros en el ámbito de la publicidad en la Nueva York 
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/the-mentalist-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      The Mentalist
+                    </div>
+                    <div class="desc">
+                     Es una producción de CBS que trata la historia de Patrick Jane , un apuesto hombre de mediana edad con una capacidad de observación sobrenatural y resolver crimenes de un forma no convencional.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+
+              <ons-list-header class="person-list-header">Terror</ons-list-header>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/walking-dead-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      The Walking Dead
+                    </div>
+                    <div class="desc">
+                      La historia nos traslada a un escenario post-pandémico en el que un virus ha acabado con la práctica totalidad de la población mundial convirtiéndolos en zombis.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/beware-lake-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      La maldición de Dark Lake
+                    </div>
+                    <div class="desc">
+                      Basada en la novela de Stephen King, gira en torno a Mike Noonan , un escritor de renombre que, tras perder a su mujer Jo y al hijo que crecía en su interior , no consigue hacer que su vida continúe hacia delante.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+
+              <ons-list-header class="person-list-header">Anime</ons-list-header>
+               <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/claymore-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Claymore
+                    </div>
+                    <div class="desc">
+                      Las guerreras de ojos plateanos pelean contra criaturas llamas yomas los cuales se infiltran en la sociedad para poder cazar humanos.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/Naruto-them-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      Naruto
+                    </div>
+                    <div class="desc">
+                      Naruto Uzumaki planea convertirse en hokage, pero para eso primero debera vencer una serie de obstaculos y ninjas muy poderosos que se interpondran en su cammino.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item modifier="chevron" class="list-item-container">
+                <ons-row>
+                  <ons-col width="95px">
+                    <img src="img/list-series/onepiece-thum-1.jpg" class="thumbnail">
+                  </ons-col>
+                  <ons-col>
+                    <div class="name">
+                      One Piece
+                    </div>
+                    <div class="desc">
+                      Monkey D. Luffy , se embarca en una aventura con sus tripulacion para encontrar el tesoso pirata llamado One Pice y asi poder convertirse en el proximo rey de los piratas.
+                    </div>
+                  </ons-col>
+                  <ons-col width="40px"></ons-col>
+                </ons-row>
+              </ons-list-item>
+            </ons-list>
+                  </br>
+
+    <ons-template id="paddge.html">
+      <ons-page modifier="shop-details">
+        <ons-toolbar modifier="transparent">
+          <div class="right">
+            <ons-toolbar-button><ons-icon icon="ion-ios7-chatboxes" style="color: white"></ons-icon></ons-toolbar-button>
+          </div>
+          <div class="left">
+            <ons-toolbar-button><ons-icon icon="ion-arrow-left-c" style="color: white; font-size: 28px;" fixed-width="false"></ons-icon></ons-toolbar-button>
+          </div>
+        </ons-toolbar>
+
+        <div class="card">
+
+          <div class="card-name">Onsen Sushi</div>
+          <div class="card-desc">Traditional Japanese Sushi<br>Open until 10:30pm</div>
+
         </div>
-        <div class="center">Page 1</div>
-      </ons-toolbar>
 
-      <ons-row style="margin-top: 100px; text-align: center;">
-        <ons-col>
-          <ons-button modifier="light" ng-click="menu.toggleMenu()">
-            Toggle Menu
-          </ons-button>
-          <p style="color: #999; font-size: 13px;">Click "Toggle Menu" to close/open menu,<br> You can also swipe the page left/right.</p>
+        <div class="rating"><div class="rating-num">
+            <ons-icon icon="fa-star" fixed-width="false"></ons-icon>
+            <ons-icon icon="fa-star" fixed-width="false"></ons-icon>
+            <ons-icon icon="fa-star" fixed-width="false"></ons-icon>
+            <ons-icon icon="fa-star" fixed-width="false"></ons-icon>
+            <ons-icon icon="fa-star-half" fixed-width="false"></ons-icon>
+            4.5
+        </div></div>
+
+        <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;">
+          <ons-row class="action">
+
+            <ons-col class="action-col">
+              <div class="action-icon"><ons-icon icon="ion-ios7-star-half"></ons-icon></div>
+              <div class="action-label">Rate</div>
+            </ons-col>
+
+            <ons-col class="action-col">
+              <div class="action-icon"><ons-icon icon="ion-bookmark"></ons-icon></div>
+              <div class="action-label">Favorite</div>
+            </ons-col>
+
+            <ons-col class="action-col">
+              <div class="action-icon"><ons-icon icon="ion-share"></ons-icon></div>
+              <div class="action-label">Share</div>
+            </ons-col>
+
+            <ons-col class="action-col">
+              <div class="action-icon"><ons-icon icon="ion-compose"></ons-icon></div>
+              <div class="action-label">Check In</div>
+            </ons-col>
+
+          </ons-row>
+        </ons-list-item></ons-list>
+
+        <ons-list style="margin-top: 12px;">
+          <ons-list-item modifier="chevron">
+            <div class="prop-desc">
+              <ons-icon icon="fa-map-marker"></ons-icon>
+              2-15-13 Hongo Bunkyo Tokyo
+            </div>
+          </ons-list-item>
+
+          <ons-list-item modifier="chevron">
+            <div class="prop-desc">
+              <ons-icon icon="fa-mobile"></ons-icon>
+              (111) 123-4567
+            </div>
+          </ons-list-item>
+
+          <ons-list-item modifier="chevron">
+            <div class="prop-desc">
+              <ons-icon icon="fa-book"></ons-icon>
+              Store Photos and Menus
+            </div>
+          </ons-list-item>
+
+          <ons-list-item modifier="chevron">
+            <div class="prop-desc">
+              <ons-icon icon="fa-clock-o"></ons-icon>
+              Make a Reservation
+            </div>
+          </ons-list-item>
+        </ons-list>
+
+      </ons-page>
+    </ons-template>
+
+ </ons-page>
+</ons-template>
+        <!-- Fin pagina serie Lista -->
+
+      </br>
+
+        <!-- Inicio pagina curiosidades  -->
+        <ons-template id="curosiodades-lista.html">
+          <ons-page>
+
+              <ons-list-item class="list-item-container">
+                <ons-row>
+                  <ons-col>
+                    <div >
+                      El autor de los libros (George Martin), por las dudas de que le pase algo antes de escribir los 2 libros que faltan (6 y 7), le contó el final de la saga a los productores de la serie para que no quede inconclusa. Un genio el gordo.
+                    </div>
+                  </ons-col>
+                </ons-row>
+              </ons-list-item>
+               <ons-list-item  class="list-item-container">
+                <ons-row>
+                  <ons-col>
+                    <div >
+                      Talisa Maegyr, es interpretada por Oona Chaplin, que es nada más y nada menos que la nieta de la leyenda del cine Charles Chaplin.
+                    </div>
+                  </ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item  class="list-item-container">
+                <ons-row>
+                  <ons-col>
+                    <div >
+                      Se rumorea que la Kit Harington y Rose Leslie pasean su amor desde el pasado año, pero no hay confirmación por parte de ninguno de los dos. El pasado verano, el canal estadounidense de noticias TMZ publicaba unas fotos de ellos en un restaurante de Londres, en una actitud cariñosa.
+                    </div>
+                  </ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item  class="list-item-container">
+                <ons-row>
+                  <ons-col>
+                    <div >
+                      Jason Momoa (Khal Drogo) nació en Honolulu en 1979 y mide 1.93 m. En el casting para entrar a la serie, realizó el haka, la danza de guerra maorí­, para obtener el papel. Si bien logró su cometido, no le gustan demasiado los caballos. 
+                    </div>
+                  </ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item  class="list-item-container">
+                <ons-row>
+                  <ons-col>
+                    <div >
+                      Peter Dinklage (hace de Tyrion, el enano) fue la única opción de los productores para el papel de Tyrion, no hubo audiciones. Algo parecido pasó con Sean Bean, que también fue la primera opción para Ned Stark, aunque se hicieron audiciones, por si rechazaba el papel.
+                    </div>
+                  </ons-col>
+                </ons-row>
+              </ons-list-item>
+              <ons-list-item  class="list-item-container">
+                <ons-row>
+                  <ons-col>
+                    <div >
+                        El “corazón de caballo” que Daenerys comió para Khal Drogo en la serie en realidad era una masa de tres libras de una sustancía parecida a la de los ositos de gominola. 
+                    </div>
+                  </ons-col>
+                </ons-row>
+              </ons-list-item>
+
+
+          </ons-page>
+        </ons-template>
+        <!-- Fin pagina curiosidades  -->
+
+
+  </ons-page>
+</ons-template>
+<!-- Fin pagina de series -->
+
+<!-- Inicio Pagina Multimedia  -->
+<ons-template id="multimedia.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button ng-click="menu.toggleMenu()"><ons-icon icon="ion-navicon" style="font-size: 32px; width: 1em;"></ons-icon></ons-toolbar-button>
+      </div>
+      <div class="center">Multimedia</div>
+    </ons-toolbar>
+
+    <ons-list>
+       <ons-list-item modifier="chevron" class="list-item-container" >
+        <ons-row>
+          <ons-col width="95px">
+            <img src="img/list-series/got-thum-1.jpg" class="thumbnail">
+          </ons-col>
+          <ons-col>
+            <div class="name">
+              Game of Thrones
+            </div>
+            <div class="desc">
+                <audio controls>
+                  <source src="sound/game-thrones-track-1.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+          </ons-col>
+          <ons-col width="40px"></ons-col>
+        </ons-row>
+      </ons-list-item>
+
+    <ons-list-item modifier="chevron" class="list-item-container">
+        <ons-row>
+          <ons-col width="95px">
+            <img src="img/list-series/american-horror-thum-1.jpg" class="thumbnail">
+          </ons-col>
+          <ons-col>
+            <div class="name">
+              American Horror Story 
+            </div>
+            <div class="desc">
+                <audio controls>
+                  <source src="sound/american-horror-track-1.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+          </ons-col>
+          <ons-col width="40px"></ons-col>
+        </ons-row>
+      </ons-list-item>
+
+    <ons-list-item modifier="chevron" class="list-item-container">
+      <ons-row>
+        <ons-col width="95px">
+          <img src="img/list-series/Naruto-them-1.jpg" class="thumbnail">
         </ons-col>
-      </ons-row>
-    </ons-page>
-  </ons-template>
-
-  <ons-template id="page2.html">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-toolbar-button ng-click="menu.toggle()">
-            <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
-          </ons-toolbar-button>
-        </div>
-        <div class="center">Page 2</div>
-      </ons-toolbar>
-
-
-      <ons-row style="margin-top: 100px; text-align: center;">
         <ons-col>
-          <ons-button modifier="light" ng-click="menu.toggleMenu()">
-            Toggle Menu
-          </ons-button>
+          <div class="name">
+            Naruto
+          </div>
+          <div class="desc">
+            <audio controls>
+              <source src="sound/naruto-track-1.mp3" type="audio/mpeg">
+            </audio>
+          </div>
         </ons-col>
+        <ons-col width="40px"></ons-col>
       </ons-row>
+    </ons-list-item>
+    <ons-list-item modifier="chevron" class="list-item-container">
+      <ons-row>
+        <ons-col width="95px">
+          <img src="img/list-series/onepiece-thum-1.jpg" class="thumbnail">
+        </ons-col>
+        <ons-col>
+          <div class="name">
+            One Piece
+          </div>
+          <div class="desc">
+              <audio controls>
+                <source src="sound/onepiece-track-1.mp3" type="audio/mpeg">
+              </audio>
+          </div>
+        </ons-col>
+        <ons-col width="40px"></ons-col>
+      </ons-row>
+    </ons-list-item>
+  </ons-list>
 
-    </ons-page>
-  </ons-template>
- 
+</br>
+
+
+
+  </ons-page>
+</ons-template>
+<!-- Fin Pagina Multimedia  -->
+
+
+<!-- Comienzo menu izquierdo -->
+    <ons-template id="menu.html">
+        <ons-page modifier="menu-page">
+          <ons-toolbar modifier="transparent"></ons-toolbar>
+
+          <ons-list class="menu-list">
+            <ons-list-item class="menu-item" onclick="menu.setMainPage('noticia.html', {closeMenu: true})">
+              <ons-icon icon="ion-laptop" fixed-width="true"></ons-icon>
+              Noticias
+            </ons-list-item>
+
+            <ons-list-item class="menu-item" ng-click="menu.setMainPage('page-favorite-list.html', {closeMenu: true})">
+              <ons-icon icon="ion-monitor" fixed-width="true"></ons-icon>
+              Mis Series
+            </ons-list-item>
+
+
+            <ons-list-item class="menu-item" ng-click="menu.setMainPage('multimedia.html', {closeMenu: true})">
+              <ons-icon icon="ion-images" fixed-width="true"></ons-icon>
+              Multimedias
+            </ons-list-item>
+
+          </ons-list>
+
+          <br>
+        </ons-page>
+    </ons-template>
+<!-- Fin menu izquierdo --> 
 </body>
 </html>
